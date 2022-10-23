@@ -1,13 +1,15 @@
 env:
-  RCLONECONFIG_DRIVE: "ENCRYPTED[c157d9eaa3cc6a9f0b095cdd71414178a4802fb75df97a3a0680979ad78470910072e6bf4ecb3aa7cfac4a1fc4bde99f]"
-  TG_TOKEN: "ENCRYPTED[7cd4d6029748623f01168eb55e6970807efcd3bae446ec8a68a7249e426e645892f65c096ed38135f2b7a8cd2587509b]"
-  TG_CHAT_ID: "ENCRYPTED[adb9b324ef9147f24a670d811500958917a7cbd76d33a5b9662ad0bad36ec07804f27e73a01d23f285c2eb675f368e4f]"
+  RCLONECONFIG_DRIVE: "ENCRYPTED[4d4fef7b65a0a37af3428a47d09f0267fa0f8bdad07536783758413cce84d5c7e0e960e5c34f55fa33d3666d3293d1d6]"
+  TG_TOKEN: "ENCRYPTED[bacd25c423306c72c927db12250f45770c12560e24182cc66a5787e4326f036e471070d446417a1662d474bdc08616ac]"
+  TG_CHAT_ID: "ENCRYPTED[15fe1ce26d43b73d1877f0717369c9efeae4af72e4475fb53af29083c3ed4ef8bc403bf58b3b5b7665b63071784d314c]"
   WORKDIR: "/tmp"
+  EMAIL: "ENCRYPTED[44366abf07e2d80750e8c9dec98f5d53fc9f1333ae93a9be698e058a6b18ff76fb4cbc5764663f4fe6aa7716a3b6da89]"
   CIRRUS_CLONE_DEPTH: "1"
+  credentials: "ENCRYPTED[ec7f126e87b67ebf1f9142910191e66c2bb835f2fad7cef8be4b07b45f1710758099476340d31b3f8afb6aa11b88e245]"
 
 task:
   name: "Setting Up, Syncing, Building and Uploading"
-  only_if: $CIRRUS_REPO_OWNER == 'AnGgIt88'
+  only_if: $CIRRUS_REPO_OWNER == 'saitama-sense'
   timeout_in: 120m
   container:
     image: anggit86/ubuntu:22.04
@@ -18,6 +20,10 @@ task:
      - ./script/load_ccache.sh
 
   Sync-rom_script:
+     - git config --global user.name "saitama-sense"
+     - git config --global user.email "saitama.senze@gmail.com"
+     - echo "$credentials" > ~/.git-credentials
+     - git config --global credential.helper store --file=~/.git-credentials
      - ./script/sync.sh
      
   Build-rom_script:
